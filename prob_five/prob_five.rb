@@ -1,11 +1,10 @@
 #!/usr/bin/ruby
-
-"""*****************************************************************
-			NOT YET COMPLETE
-********************************************************************"""
 def getinteger()
 	puts "Enter an unsigned integer"
 	choice = gets().chomp
+	if choice.downcase == 'stop'
+		Kernel.exit(false)
+	end
 	if choice.include? "."
 		choice = getinteger()
 	else
@@ -38,6 +37,19 @@ def menu()
 	return menu_choice
 end
 
+def change_letters(base_list, base)
+	if base == 2 or base == 8
+		return base_list
+	elsif base == 16
+		for counter in 0..base_list.length - 1
+			if base_list[counter].to_i >= 10
+				base_list[counter] = (65 + (base_list[counter].to_i - 10)).chr
+			end
+		end
+	end
+	return base_list
+end	
+
 def convert_base(number, base)
 	#puts number
 	#puts base
@@ -46,10 +58,14 @@ def convert_base(number, base)
 		base_list << (number % base).to_s
 		number = number / base
 	end
+	base_list = change_letters(base_list, base)
+	#puts base_list
 	puts(base_list.join('').reverse)
 
 end
-
-number = getinteger()
-base =  menu()
-convert_base(number, base)
+until false
+	number = getinteger()
+	base =  menu()
+	convert_base(number, base)
+	puts  "------------------------"
+end
